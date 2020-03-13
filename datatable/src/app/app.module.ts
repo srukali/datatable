@@ -1,21 +1,21 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { DatatableComponent} from './datatable/datatable.component';
 import { ApiService } from './shared/api.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
+import { DatatableModule } from './datatable/datatable.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DatatableComponent
+    AppComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    DatatableModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
