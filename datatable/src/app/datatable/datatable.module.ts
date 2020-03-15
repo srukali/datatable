@@ -3,6 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DatatableComponent} from './datatable.component';
 import { MatTableModule} from '@angular/material/table';
 import { MatInputModule} from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -11,13 +12,15 @@ import { MatInputModule} from '@angular/material/input';
   imports: [
     MatFormFieldModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    MatSortModule
   ],
   exports: [
     DatatableComponent,
     MatFormFieldModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: []

@@ -20,13 +20,14 @@ export interface PeriodicElement {
 export class DatatableComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
-  displayedColumns: string[] = ['id', 'name', 'salary', 'age'];
+  displayedColumns: string[] = ['id', 'employee_name', 'employee_salary', 'employee_age'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
+    console.log('this.dataSource.sort ', this.dataSource.sort );
 
     this.apiService.getEmployees()
       .subscribe((data) => {
