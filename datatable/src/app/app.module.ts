@@ -9,7 +9,7 @@ import { DatatableModule } from './datatable/datatable.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserAnimationsModule,

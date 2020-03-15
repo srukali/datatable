@@ -11,26 +11,32 @@
        matSort
        class="mat-elevation-z8">
 
-  <ng-container matColumnDef="id">
-    <mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-    <mat-cell *matCellDef="let employee"> {{employee.id}} </mat-cell>
+  <ng-container *ngFor="let column of displayedColumns; let i = index"
+                [matColumnDef]="column">
+    <mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> {{column}} </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee[column]}} </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="employee_name">
-    <mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-    <mat-cell *matCellDef="let employee"> {{employee.employee_name}} </mat-cell>
-  </ng-container>
+  <!--<ng-container matColumnDef="id">-->
+    <!--<mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Id </mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let employee"> {{employee.id}} </mat-cell>-->
+  <!--</ng-container>-->
 
-  <ng-container matColumnDef="employee_salary">
-    <mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Salary </mat-header-cell>
-    <mat-cell mat-cell *matCellDef="let employee"> {{employee.employee_salary}} </mat-cell>
-  </ng-container>
+  <!--<ng-container matColumnDef="employee_name">-->
+    <!--<mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Name </mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let employee"> {{employee.employee_name}} </mat-cell>-->
+  <!--</ng-container>-->
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="employee_age">
-    <mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Age </mat-header-cell>
-    <mat-cell mat-cell *matCellDef="let employee"> {{employee.employee_age}} </mat-cell>
-  </ng-container>
+  <!--<ng-container matColumnDef="employee_salary">-->
+    <!--<mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Salary </mat-header-cell>-->
+    <!--<mat-cell mat-cell *matCellDef="let employee"> {{employee.employee_salary}} </mat-cell>-->
+  <!--</ng-container>-->
+
+  <!--&lt;!&ndash; Symbol Column &ndash;&gt;-->
+  <!--<ng-container matColumnDef="employee_age">-->
+    <!--<mat-header-cell mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header> Age </mat-header-cell>-->
+    <!--<mat-cell mat-cell *matCellDef="let employee"> {{employee.employee_age}} </mat-cell>-->
+  <!--</ng-container>-->
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
