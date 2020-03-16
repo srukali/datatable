@@ -1,8 +1,11 @@
 import { Component, OnInit} from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { componentDestroyed, OnDestroyMixin } from '@w11k/ngx-componentdestroyed';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTableDataSource } from '@angular/material/table';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { componentDestroyed, OnDestroyMixin } from '@w11k/ngx-componentdestroyed';
+import { takeUntil } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+import { increment, decrement, reset } from './datatable.actions';
 
 import { ApiService } from '../shared/api.service';
 
@@ -13,11 +16,11 @@ import { ApiService } from '../shared/api.service';
 })
 
 export class DatatableComponent extends OnDestroyMixin implements OnInit {
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private store: Store<{ count: number }>) {
     super();
   }
 
-  // I wouldn't typically name variables in snake case, this is how my mock API sends them :)
+  // TODO: I wouldn't typically name variables in snake case, this is how my mock API sends them
   displayedColumns: string[] = ['id', 'employee_name', 'employee_salary', 'employee_age'];
   dataSource = new MatTableDataSource();
   sortByParams = [];
@@ -33,12 +36,17 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
           return;
         });
 
+        // Default sort to ASC ids
         this.dataSource.data = this.sortByMultipleRows(data.data, ['id']);
       });
   }
 
   /**
    * Search/Filter a dataset
+   * TODO: I was thinking about componetizing this filter but its so basic as-is.
+   * TODO: If it were more complicated like the one we use in our Customer Portal
+   * TODO: where we are filtering on many compounded columns I might componetize.
+   * TODO: Especially if the application was datatable heavy
    * @param event - keyup
    */
   applyFilter(event: Event) {
@@ -48,6 +56,8 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
 
   /**
    * Sort between ASC or DESC
+   * TODO: Both sort and removeSort I think could be refactored to utilize
+   * TODO: redux in a nice way
    * @param column - Datatable column to sort
    */
   sort(column) {
@@ -69,6 +79,8 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
 
   /**
    * Clear any sorting
+   * TODO: Both sort and removeSort I think could be refactored to utilize
+   * TODO: redux in a nice way
    * @param column - Datatable column to clear sorting
    */
   removeSort(column) {
@@ -85,6 +97,10 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
 
   /**
    * Sorts a dataset based on multiple columns
+   * TODO: This one I couldn't decide what to do with.
+   * TODO: It could be put in a shared helper class somewhere for more general use, or
+   * TODO: it could stay living just in the datatable. It would depend on
+   * TODO: usecases elsewhere.
    * @param data - Dataset to sort
    * @param sortByParams - Array of columns to sort in order of importance.
    *  Use notation '-id' to indicate descending
@@ -118,8 +134,9 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
 
   /**
    * Decides which icon to display for sorting each column (Asc, Desc, Neutral)
-   * TODO: This is not the most efficient way to do this. Ideally you would
-   * TODO: an object you could hash and set in the actual sorting methods
+   * TODO: This is not the most efficient way to do this.
+   * TODO: This would probably be the easiest place to start refactoring with Ngrx.
+   * TODO: Cycle through icons as different actions 'ascending', 'descending', 'neutral'
    * @param column - Column which the icon pertains to
    */
   displaySortingIcon(column) {
@@ -139,5 +156,20 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
     }
 
     return 'sort';
+  }
+
+  /**
+   * TODO: These are the shells of the Ngrx tutorial I started
+   */
+  increment() {
+    this.store.dispatch(increment());
+  }
+
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
   }
 }

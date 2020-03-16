@@ -1,4 +1,12 @@
-mat-header-cell {
-  background-color: #319cf6;
-  color: white;
+$primary: #319cf6;
+
+.datatable-container {
+  mat-header-cell {
+    background-color: $primary;
+    color: white;
+    text-transform: uppercase;
+  }
+  mat-header-cell:hover {
+    cursor: pointer;
+  }
 }

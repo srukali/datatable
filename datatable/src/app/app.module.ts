@@ -7,6 +7,9 @@ import { ApiService } from './shared/api.service';
 import { AppComponent } from './app.component';
 import { DatatableModule } from './datatable/datatable.module';
 
+import { StoreModule } from '@ngrx/store';
+import { datatableReducer } from './datatable/datatable.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +18,8 @@ import { DatatableModule } from './datatable/datatable.module';
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    DatatableModule
+    DatatableModule,
+    StoreModule.forRoot({ count: datatableReducer })
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

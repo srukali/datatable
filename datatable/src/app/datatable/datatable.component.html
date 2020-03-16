@@ -1,27 +1,30 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
-</mat-form-field>
+<div class="datatable-container">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
 
-<mat-table [dataSource]="dataSource"
-           cdkDropList
-           cdkDropListOrientation="horizontal"
-           (cdkDropListDropped)="drop($event)"
-           class="mat-elevation-z8">
-  <ng-container *ngFor="let column of displayedColumns; let i = index"
-                [matColumnDef]="column">
-    <mat-header-cell cdkDrag *matHeaderCellDef>
-      {{column}}
-      <button mat-icon-button (click)="sort(column)">
-        <i class='material-icons'>{{displaySortingIcon(column)}}</i>
-      </button>
-      <button mat-icon-button *ngIf="showClearButton(column)" (click)="removeSort(column)">
-        <span>X</span>
-      </button>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let employee"> {{employee[column]}} </mat-cell>
-  </ng-container>
+  <mat-table [dataSource]="dataSource"
+             cdkDropList
+             cdkDropListOrientation="horizontal"
+             (cdkDropListDropped)="drop($event)"
+             class="mat-elevation-z8">
+    <ng-container *ngFor="let column of displayedColumns; let i = index"
+                  [matColumnDef]="column">
+      <mat-header-cell cdkDrag *matHeaderCellDef>
+        {{column}}
+        <button mat-icon-button (click)="sort(column)">
+          <i class='material-icons'>{{displaySortingIcon(column)}}</i>
+        </button>
+        <button mat-icon-button *ngIf="showClearButton(column)" (click)="removeSort(column)">
+          <span>X</span>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee[column]}} </mat-cell>
+    </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
