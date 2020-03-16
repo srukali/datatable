@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort} from '@angular/material/sort';
 
 import { ApiService } from '../shared/api.service';
 
@@ -18,15 +17,17 @@ export class DatatableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'employee_name', 'employee_salary', 'employee_age'];
   dataSource = new MatTableDataSource();
   sortByParams = [];
-  asc = false;
 
   ngOnInit() {
-    // this.dataSource.sort = this.sort;
-
     this.apiService.getEmployees()
       .subscribe((data) => {
-        this.dataSource.data = data.data;
-        console.log('data', data);
+        // Map API strings to numbers so sorting works correctly
+        data.data.map((employee) => {
+          employee.id = Number(employee.id);
+          employee.employee_age = Number(employee.employee_age);
+          return;
+        });
+
         this.dataSource.data = this.sortByMultipleRows(data.data, ['id']);
       });
   }
@@ -40,6 +41,10 @@ export class DatatableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  /**
+   * Sort between ASC or DESC
+   * @param column - Datatable column to sort
+   */
   sort(column) {
     const asc = this.sortByParams.indexOf(column);
     const desc = this.sortByParams.indexOf(`-${column}`);
@@ -57,12 +62,20 @@ export class DatatableComponent implements OnInit {
     this.dataSource.data = this.sortByMultipleRows(this.dataSource.data, this.sortByParams);
   }
 
+  /**
+   * Clear any sorting
+   * @param column - Datatable column to clear sorting
+   */
   removeSort(column) {
-    if (this.sortByParams.indexOf(column) !== -1) {
+    const asc = this.sortByParams.indexOf(column);
+
+    if (asc !== -1) {
       this.sortByParams.splice(this.sortByParams.indexOf(column), 1);
-      console.log(this.sortByParams);
-      this.dataSource.data = this.sortByMultipleRows(this.dataSource.data, this.sortByParams);
+    } else {
+      this.sortByParams.splice(this.sortByParams.indexOf(`-${column}`), 1);
     }
+
+    this.dataSource.data = this.sortByMultipleRows(this.dataSource.data, this.sortByParams);
   }
 
   /**
@@ -72,7 +85,6 @@ export class DatatableComponent implements OnInit {
    *  Use notation '-id' to indicate descending
    */
   sortByMultipleRows(data, sortByParams) {
-    console.log('sorting multiple rows');
     const fieldSorter = (fields) => (a, b) => fields.map(o => {
       let dir = 1;
       if (o[0] === '-') { dir = -1; o = o.substring(1); }
@@ -80,6 +92,7 @@ export class DatatableComponent implements OnInit {
     }).reduce((p, n) => p ? p : n, 0);
 
     return data.sort(fieldSorter(sortByParams));
+
   }
 
   /**
@@ -88,5 +101,9 @@ export class DatatableComponent implements OnInit {
    */
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+  }
+
+  showClearButton(column) {
+    return this.sortByParams.includes(column) || this.sortByParams.includes(`-${column}`);
   }
 }

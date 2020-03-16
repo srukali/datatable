@@ -1,12 +1,23 @@
-table {
-  width: 100%;
-}
+mat-header-cell {
+  background-color: #319cf6;
+  color: white;
 
-.mat-form-field {
-  font-size: 13px;
-  width: 110px; //put the value you need
-}
 
-button {
-  text-align: center;
+    .unsort {
+      color: mediumpurple;
+    }
+    .sort{
+      color: red;
+    }
+
+    .clear{
+      color: red;
+    }
+
+
+
+
+
+
+
 }
