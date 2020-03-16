@@ -8,12 +8,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule} from '@angular/common';
 
 import { DatatableComponent} from './datatable.component';
-import { MultiSortPipe} from '../shared/multiSort.pipe';
 
 @NgModule({
   declarations: [
     DatatableComponent,
-    MultiSortPipe
   ],
   imports: [
     MatFormFieldModule,
@@ -34,7 +32,7 @@ import { MultiSortPipe} from '../shared/multiSort.pipe';
     DragDropModule,
     CommonModule,
   ],
-  providers: [MultiSortPipe],
+  providers: [],
   bootstrap: []
 })
 export class DatatableModule { }

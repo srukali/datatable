@@ -116,7 +116,13 @@ export class DatatableComponent extends OnDestroyMixin implements OnInit {
     return this.sortByParams.includes(column) || this.sortByParams.includes(`-${column}`);
   }
 
-  sortIcon(column) {
+  /**
+   * Decides which icon to display for sorting each column (Asc, Desc, Neutral)
+   * TODO: This is not the most efficient way to do this. Ideally you would
+   * TODO: an object you could hash and set in the actual sorting methods
+   * @param column - Column which the icon pertains to
+   */
+  displaySortingIcon(column) {
     if (this.sortByParams.length === 0) {
       return 'sort';
     }
