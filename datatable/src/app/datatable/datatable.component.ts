@@ -4,7 +4,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { componentDestroyed, OnDestroyMixin } from '@w11k/ngx-componentdestroyed';
 import { takeUntil } from 'rxjs/operators';
 
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { increment, decrement, reset } from './datatable.actions';
 
 import { ApiService } from '../shared/api.service';

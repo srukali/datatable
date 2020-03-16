@@ -1,7 +1,7 @@
 <div class="datatable-container">
   <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex: Employee Name">
   </mat-form-field>
 
   <mat-table [dataSource]="dataSource"
