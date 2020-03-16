@@ -13,13 +13,11 @@
                 [matColumnDef]="column">
     <mat-header-cell cdkDrag *matHeaderCellDef>
       {{column}}
-      <button mat-mini-fab
+      <button mat-icon-button
               (click)="sort(column)">
-        <span>Sort</span>
-        <i class='material-icons'>keyboard_arrow_up</i>
-        <i class='material-icons'>keyboard_arrow_down</i>
+        <i class='material-icons'>{{sortIcon(column)}}</i>
       </button>
-      <button mat-mini-fab
+      <button mat-icon-button
               *ngIf="showClearButton(column)"
               (click)="removeSort(column)">
         <span>X</span>

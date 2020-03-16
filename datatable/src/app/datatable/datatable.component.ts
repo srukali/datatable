@@ -1,4 +1,6 @@
 import { Component, OnInit} from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { componentDestroyed, OnDestroyMixin } from '@w11k/ngx-componentdestroyed';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -10,8 +12,10 @@ import { ApiService } from '../shared/api.service';
   styleUrls   : ['./datatable.component.scss']
 })
 
-export class DatatableComponent implements OnInit {
-  constructor(private apiService: ApiService) {}
+export class DatatableComponent extends OnDestroyMixin implements OnInit {
+  constructor(private apiService: ApiService) {
+    super();
+  }
 
   // I wouldn't typically name variables in snake case, this is how my mock API sends them :)
   displayedColumns: string[] = ['id', 'employee_name', 'employee_salary', 'employee_age'];
@@ -20,6 +24,7 @@ export class DatatableComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getEmployees()
+      .pipe(takeUntil(componentDestroyed(this)))
       .subscribe((data) => {
         // Map API strings to numbers so sorting works correctly
         data.data.map((employee) => {
@@ -103,7 +108,30 @@ export class DatatableComponent implements OnInit {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
+  /**
+   * Show/Hide the Clear button for Sorting
+   * @param column - Column to hide/show Sort Clear button
+   */
   showClearButton(column) {
     return this.sortByParams.includes(column) || this.sortByParams.includes(`-${column}`);
+  }
+
+  sortIcon(column) {
+    if (this.sortByParams.length === 0) {
+      return 'sort';
+    }
+
+    const asc = this.sortByParams.indexOf(column);
+    const desc = this.sortByParams.indexOf(`-${column}`);
+
+    if (asc !== -1) {
+      return 'keyboard_arrow_up';
+    }
+
+    if (desc !== -1) {
+      return 'keyboard_arrow_down';
+    }
+
+    return 'sort';
   }
 }
